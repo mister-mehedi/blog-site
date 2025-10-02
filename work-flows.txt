@@ -1,0 +1,74 @@
+package.json -> .gitignore -> .env -> server.js -> app.js -> models(User, Blog, Token)
+-> routes() ->
+
+--
+npm init -y
+npm install express mongoose dotenv express-async-errors jsonwebtoken bcryptjs express-validator morgan
+npm install --save-dev nodemon
+
+---
+
+"scripts": {
+  "start": "nodemon server.js"
+}
+
+---
+node_modules
+.env
+*.log
+
+---
+
+# JWT Configuration
+JWT_SECRET=your-very-strong-jwt-secret
+JWT_REFRESH_SECRET=your-very-strong-jwt-refresh-secret
+JWT_ACCESS_LIFETIME=1h
+JWT_REFRESH_LIFETIME=7d
+
+---
+
+script change:
+// "test": "echo \"Error: no test specified\" && exit 1"
+
+----
+
+# Database Configuration
+# MONGO_URI=mongodb://localhost:27017/blogDB
+MONGO_URI=mongodb://127.0.0.1:27017/blogApiDB
+
+--
+
+/blog-api
+|
+|-- /controllers
+|   |-- authController.js       # Handles logic for registration, login, logout, etc.
+|   |-- blogController.js       # Handles CRUD logic for blogs.
+|   |-- adminController.js      # Handles logic for admin-specific actions.
+|
+|-- /middleware
+|   |-- authentication.js       # Verifies JWT to protect routes.
+|   |-- errorHandler.js         # Centralized error handling.
+|   |-- notFound.js             # Handles requests to non-existent routes.
+|   |-- roleHandler.js          # Verifies user roles (admin, master).
+|   |-- validator.js            # Contains validation rules using express-validator.
+|
+|-- /models
+|   |-- User.js                 # Mongoose schema and model for Users.
+|   |-- Blog.js                 # Mongoose schema and model for Blogs.
+|   |-- Token.js                # Mongoose schema for storing refresh tokens.
+|
+|-- /routes
+|   |-- authRoutes.js           # Defines auth-related endpoints.
+|   |-- blogRoutes.js           # Defines blog-related endpoints.
+|   |-- adminRoutes.js          # Defines admin-related endpoints.
+|
+|-- /utils
+|   |-- jwt.js                  # Helper functions for creating and verifying JWTs.
+|   |-- passwordUtils.js        # Helper functions for hashing and comparing passwords.
+|
+|-- .env                        # Environment variables (NEVER commit to git).
+|-- .gitignore                  # Specifies files for git to ignore.
+|-- app.js                      # Main application file: server setup, middleware.
+|-- server.js                   # Entry point: connects to DB and starts the server.
+|-- package.json
+|-- package-lock.json
